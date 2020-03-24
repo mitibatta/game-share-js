@@ -32,7 +32,7 @@ import likebtn from './likebtn'
 import deletebtn from './deletebtn'
 
 // const hostName = 'localhost:3000'
-const hostName = 'agile-meadow-34312.herokuapp.com'
+const hostName = 'game-share-api.herokuapp.com'
 const path = '/api/users'
 const path1 = '/api/favorites'
 export default {
