@@ -4,8 +4,8 @@
 
 <script>
 import axios from 'axios'
-// const hostName = 'localhost:3000'
-const hostName = 'game-share-api.herokuapp.com'
+const hostName = 'http://localhost:3000'
+// const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/posts'
 
 export default {
@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     postDelete () {
-      axios.delete(`https://${hostName}${path}/${this.postId}`).then(result => {
+      axios.delete(`${hostName}${path}/${this.postId}`).then(result => {
         this.res = result.data
         console.log(this.res.message)
         this.$emit('deletepost', (this.res.message))

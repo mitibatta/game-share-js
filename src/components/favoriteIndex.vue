@@ -29,8 +29,8 @@ import axios from 'axios'
 import likebtn from './likebtn'
 import deletebtn from './deletebtn'
 
-// const hostName = 'localhost:3000'
-const hostName = 'game-share-api.herokuapp.com'
+const hostName = 'http://localhost:3000'
+// const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/favorites'
 export default {
   name: 'favoriteIndex',
@@ -55,7 +55,7 @@ export default {
   mounted: function () {
     this.logged_in = this.$localStorage.get('loginUser')
     console.log(this.logged_in)
-    axios.get(`https://${hostName}${path}`, {
+    axios.get(`${hostName}${path}`, {
       params: {
         id: this.logged_in
       }
@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     deletePost (msg) {
-      axios.get(`https://${hostName}${path}`, {
+      axios.get(`${hostName}${path}`, {
         params: {
           id: this.logged_in
         }
@@ -84,7 +84,7 @@ export default {
     },
     route () {
       this.$router.push('/favorite/index')
-      axios.get(`https://${hostName}${path}`, {
+      axios.get(`${hostName}${path}`, {
         params: {
           id: this.logged_in
         }

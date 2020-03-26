@@ -31,8 +31,8 @@ import axios from 'axios'
 import likebtn from './likebtn'
 import deletebtn from './deletebtn'
 
-// const hostName = 'localhost:3000'
-const hostName = 'game-share-api.herokuapp.com'
+const hostName = 'http://localhost:3000'
+// const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/users'
 const path1 = '/api/favorites'
 export default {
@@ -62,13 +62,13 @@ export default {
     console.log(this.logged_in)
     this.id = this.$route.params['id']
     console.log(this.id)
-    axios.get(`https://${hostName}${path}/${this.id}`).then(result => {
+    axios.get(`${hostName}${path}/${this.id}`).then(result => {
       this.res = result.data
       console.log(result.data)
     }).catch(error => {
       console.log(error)
     })
-    axios.get(`https://${hostName}${path1}/userIndex/${this.logged_in}`).then(result => {
+    axios.get(`${hostName}${path1}/userIndex/${this.logged_in}`).then(result => {
       this.postFav = result.data
       console.log(result.data)
     }).catch(error => {
@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     deletePost (msg) {
-      axios.get(`https://${hostName}${path}/${this.id}`).then(result => {
+      axios.get(`${hostName}${path}/${this.id}`).then(result => {
         this.res = result.data
         console.log(result.data)
       }).catch(error => {
@@ -89,13 +89,13 @@ export default {
     },
     route () {
       this.$router.push(`/user/show/${this.id}`)
-      axios.get(`https://${hostName}${path}/${this.id}`).then(result => {
+      axios.get(`${hostName}${path}/${this.id}`).then(result => {
         this.res = result.data
         console.log(result.data)
       }).catch(error => {
         console.log(error)
       })
-      axios.get(`https://${hostName}${path1}/userIndex/${this.logged_in}`).then(result => {
+      axios.get(`${hostName}${path1}/userIndex/${this.logged_in}`).then(result => {
         this.postFav = result.data
         console.log(result.data)
       }).catch(error => {
