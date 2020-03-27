@@ -30,8 +30,8 @@ import likebtn from './likebtn'
 import deletebtn from './deletebtn'
 import pagenate from './pagenate'
 
-const hostName = 'http://localhost:3000'
-// const hostName = 'https://game-share-api.herokuapp.com'
+// const hostName = 'http://localhost:3000'
+const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/posts'
 const path1 = '/api/favorites'
 
