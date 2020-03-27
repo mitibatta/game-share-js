@@ -192,7 +192,7 @@ export default {
 
   .page{
     display: flex;
-    margin-left: 50%;
+    justify-content: center;
   }
 }
 

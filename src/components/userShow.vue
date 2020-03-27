@@ -1,6 +1,5 @@
 <template>
   <div class="posts-index-wrapper">
-   <!-- <paginate name="page" :list="res.posts" :per="7"> -->
     <div class="user-name">
      <h2>{{ res.user.name }}の投稿</h2>
      </div>
@@ -21,8 +20,9 @@
             </div>
           </div>
     </div>
-   <!-- </paginate> -->
-     <!-- <paginate-links for="page" class="pagination" :show-step-links="true"></paginate-links> -->
+   <div class="page">
+    <pagenate v-for="n in res.pages" :key="n" :number="n" @pagech="getPost"></pagenate>
+    </div>
   </div>
 </template>
 
@@ -30,6 +30,7 @@
 import axios from 'axios'
 import likebtn from './likebtn'
 import deletebtn from './deletebtn'
+import pagenate from './pagenate'
 
 const hostName = 'http://localhost:3000'
 // const hostName = 'https://game-share-api.herokuapp.com'
@@ -39,7 +40,8 @@ export default {
   name: 'userShow',
   components: {
     'likebtn': likebtn,
-    'deletebtn': deletebtn
+    'deletebtn': deletebtn,
+    'pagenate': pagenate
   },
   data: function () {
     return {
@@ -50,7 +52,8 @@ export default {
         user: {},
         posts: [],
         pictures: [],
-        favorites: []
+        favorites: [],
+        pages: 1
       },
       response: {
         message: ''
@@ -97,6 +100,18 @@ export default {
       })
       axios.get(`${hostName}${path1}/userIndex/${this.logged_in}`).then(result => {
         this.postFav = result.data
+        console.log(result.data)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    getPost (n) {
+      axios.get(`${hostName}${path}/${this.id}`, {
+        params: {
+          page: n
+        }
+      }).then(result => {
+        this.res = result.data
         console.log(result.data)
       }).catch(error => {
         console.log(error)
@@ -185,6 +200,11 @@ export default {
 
   .text-body{
     font-size: 25px;
+  }
+
+  .page{
+    display: flex;
+    justify-content: center;
   }
 }
 

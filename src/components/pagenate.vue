@@ -11,6 +11,9 @@ export default {
   props: ['number'],
   methods: {
     getPost () {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'})
       this.$emit('pagech', (this.number))
     }
   }
