@@ -1,6 +1,5 @@
 <template>
   <div class="posts-index-wrapper">
-   <!-- <paginate name="page" :list="res.posts" :per="7"> -->
     <div class="container" v-for="post in res.posts" :key="post.id">
           <div class="post-parts">
             <h2 class="user-name"><router-link :to="{name: 'userShow', params: {id: post.user_id}}" class="text">{{res.users.filter(e => e.id == post.user_id)[0].name }}</router-link></h2>
@@ -19,8 +18,9 @@
             </div>
           </div>
     </div>
-   <!-- </paginate> -->
-     <!-- <paginate-links for="page" class="pagination" :show-step-links="true"></paginate-links> -->
+    <div class="page">
+    <pagenate v-for="n in res.pages" :key="n" :number="n" @pagech="getPost"></pagenate>
+    </div>
   </div>
 </template>
 
@@ -28,6 +28,7 @@
 import axios from 'axios'
 import likebtn from './likebtn'
 import deletebtn from './deletebtn'
+import pagenate from './pagenate'
 
 const hostName = 'http://localhost:3000'
 // const hostName = 'https://game-share-api.herokuapp.com'
@@ -38,7 +39,8 @@ export default {
   name: 'postIndex',
   components: {
     'likebtn': likebtn,
-    'deletebtn': deletebtn
+    'deletebtn': deletebtn,
+    'pagenate': pagenate
   },
   data: function () {
     return {
@@ -48,7 +50,8 @@ export default {
         posts: [],
         users: [],
         pictures: [],
-        favorites: []
+        favorites: [],
+        pages: 1
       },
       response: {
         message: ''
@@ -94,6 +97,18 @@ export default {
       })
       axios.get(`${hostName}${path1}/userIndex/${this.logged_in}`).then(result => {
         this.postFav = result.data
+        console.log(result.data)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    getPost (n) {
+      axios.get(`${hostName}${path}`, {
+        params: {
+          page: n
+        }
+      }).then(result => {
+        this.res = result.data
         console.log(result.data)
       }).catch(error => {
         console.log(error)
@@ -173,6 +188,11 @@ export default {
 
   .text-body{
     font-size: 25px;
+  }
+
+  .page{
+    display: flex;
+    margin-left: 50%;
   }
 }
 
