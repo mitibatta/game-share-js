@@ -10,7 +10,6 @@ export default {
   props: ['msg']
 }
 </script>
-
 <style scoped>
 .flash{
   background-color:lightgreen;

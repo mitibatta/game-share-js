@@ -18,6 +18,11 @@
           <label for="text">テキスト</label>
           <textarea rows="6" cols="18" id="text" name="text" class="form-control form-text" v-model='post.text'></textarea>
         </div>
+        <div class="form-group">
+          <label for="tag">タグ</label>
+          <p></p>
+          <input type="text" id="tag" name="tag" v-model="post.tag">
+        </div>
         <input type="submit" value="投稿" class="btn-block btn-white" v-if="post.logged_in > 0">
       </form>
       </div>
@@ -29,8 +34,8 @@
 <script>
 import axios from 'axios'
 
-// const hostName = 'http://localhost:3000'
-const hostName = 'https://game-share-api.herokuapp.com'
+const hostName = 'http://localhost:3000'
+// const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/posts'
 
 export default {
@@ -41,7 +46,8 @@ export default {
         uploadImage: null,
         uploadVideo: null,
         text: '',
-        logged_in: 0
+        logged_in: 0,
+        tag: ''
       },
       errored: false,
       res: {
@@ -71,6 +77,7 @@ export default {
       formdata.append('post[video]', this.post.uploadVideo)
       formdata.append('post[user_id]', this.post.logged_in)
       formdata.append('post[text]', this.post.text)
+      formdata.append('post[tag_name]', this.post.tag)
 
       console.log(formdata)
 

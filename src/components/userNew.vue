@@ -34,8 +34,8 @@
 <script>
 import axios from 'axios'
 
-// const hostName = 'http://localhost:3000'
-const hostName = 'https://game-share-api.herokuapp.com'
+const hostName = 'http://localhost:3000'
+// const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/users'
 
 export default {

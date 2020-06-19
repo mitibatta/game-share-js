@@ -5,6 +5,7 @@ import userNew from '../components/userNew'
 import sessionsNew from '../components/sessionsNew'
 import postNew from '../components/postNew'
 import postIndex from '../components/postIndex'
+import postSerch from '../components/postSerch'
 import postEdit from '../components/postEdit'
 import postShow from '../components/postShow'
 import favoriteIndex from '../components/favoriteIndex'
@@ -57,6 +58,11 @@ export default new Router({
       path: '/user/show/:id',
       name: 'userShow',
       component: userShow
+    },
+    {
+      path: '/post/index/serch',
+      name: 'postSerch',
+      component: postSerch
     }
   ]
 })

@@ -1,5 +1,6 @@
 <template>
   <div class="posts-index-wrapper">
+    <tagMenu :tags='res.tags' @tagSerch='getTag'></tagMenu>
     <div class="container" v-for="post in res.posts" :key="post.id">
           <div class="post-parts">
             <h2 class="user-name"><router-link :to="{name: 'userShow', params: {id: post.user_id}}" class="text">{{res.users.filter(e => e.id == post.user_id)[0].name }}</router-link></h2>
@@ -9,6 +10,9 @@
             <ul class="public">
               <li><likebtn :post-id="post.id" :logged_in="logged_in" :post-fav="postFav" @sendURL="route"></likebtn><p>{{ res.favorites.filter(e => e.post_id == post.id).length }}</p></li>
               <li></li>
+            </ul>
+            <ul>
+              <li v-for="tag in res.tag_post[post.id]" :key="tag.id">{{tag.name}}</li>
             </ul>
             <div v-if="logged_in == post.user_id">
               <ul class="user-only">
@@ -29,9 +33,10 @@ import axios from 'axios'
 import likebtn from './likebtn'
 import deletebtn from './deletebtn'
 import pagenate from './pagenate'
+import tagMenu from './tagMenu'
 
-// const hostName = 'http://localhost:3000'
-const hostName = 'https://game-share-api.herokuapp.com'
+const hostName = 'http://localhost:3000'
+// const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/posts'
 const path1 = '/api/favorites'
 
@@ -40,7 +45,8 @@ export default {
   components: {
     'likebtn': likebtn,
     'deletebtn': deletebtn,
-    'pagenate': pagenate
+    'pagenate': pagenate,
+    'tagMenu': tagMenu
   },
   data: function () {
     return {
@@ -51,6 +57,8 @@ export default {
         users: [],
         pictures: [],
         favorites: [],
+        tags: [],
+        tag_post: {},
         pages: 1
       },
       response: {
@@ -113,6 +121,9 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    getTag (data) {
+      this.res = data
     }
   }
 }

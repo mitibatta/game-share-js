@@ -1,3 +1,4 @@
+
 <template>
   <div class="posts-index-wrapper">
     <div class="container" v-for="post in res.posts" :key="post.id">
@@ -30,8 +31,8 @@ import likebtn from './likebtn'
 import deletebtn from './deletebtn'
 import pagenate from './pagenate'
 
-// const hostName = 'http://localhost:3000'
-const hostName = 'https://game-share-api.herokuapp.com'
+const hostName = 'http://localhost:3000'
+// const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/favorites'
 export default {
   name: 'favoriteIndex',
