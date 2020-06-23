@@ -1,6 +1,8 @@
 <template>
   <div class="posts-index-wrapper">
-    <tagMenu :tags='res.tags' @tagSerch='getTag'></tagMenu>
+    <div class="select">
+    <v-select :options='res.tags' v-model="selected" @input="tagSerch"></v-select>
+    </div>
     <div class="container" v-for="post in res.posts" :key="post.id">
           <div class="post-parts">
             <h2 class="user-name"><router-link :to="{name: 'userShow', params: {id: post.user_id}}" class="text">{{res.users.filter(e => e.id == post.user_id)[0].name }}</router-link></h2>
@@ -11,15 +13,16 @@
               <li><likebtn :post-id="post.id" :logged_in="logged_in" :post-fav="postFav" @sendURL="route"></likebtn><p>{{ res.favorites.filter(e => e.post_id == post.id).length }}</p></li>
               <li></li>
             </ul>
-            <ul>
-              <li v-for="tag in res.tag_post[post.id]" :key="tag.id">{{tag.name}}</li>
-            </ul>
             <div v-if="logged_in == post.user_id">
               <ul class="user-only">
                 <li><router-link :to="{name: 'postEdit', params: {id: post.id}}">編集</router-link></li>
                 <li><deletebtn :post-id="post.id" @deletepost="deletePost"></deletebtn></li>
               </ul>
             </div>
+            <ul class="tag">
+              <li>タグ  ：</li>
+              <li v-for="tag in res.tag_post[post.id]" :key="tag.id">{{tag.name}}</li>
+            </ul>
           </div>
     </div>
     <div class="page">
@@ -29,29 +32,31 @@
 </template>
 
 <script>
+import vSelect from 'vue-select'
 import axios from 'axios'
 import likebtn from './likebtn'
 import deletebtn from './deletebtn'
 import pagenate from './pagenate'
-import tagMenu from './tagMenu'
 
-const hostName = 'http://localhost:3000'
-// const hostName = 'https://game-share-api.herokuapp.com'
+// const hostName = 'http://localhost:3000'
+const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/posts'
 const path1 = '/api/favorites'
+const path2 = '/api/posts/tags'
 
 export default {
   name: 'postIndex',
   components: {
+    vSelect,
     'likebtn': likebtn,
     'deletebtn': deletebtn,
-    'pagenate': pagenate,
-    'tagMenu': tagMenu
+    'pagenate': pagenate
   },
   data: function () {
     return {
       logged_in: 0,
       postFav: [],
+      selected: 'ここをクリックしてタグを検索',
       res: {
         posts: [],
         users: [],
@@ -124,6 +129,17 @@ export default {
     },
     getTag (data) {
       this.res = data
+    },
+    tagSerch () {
+      console.log(this.selected)
+      axios.get(`${hostName}${path2}/${this.selected}`
+      ).then(result => {
+        this.res = result.data
+        // this.$emit('tagSerch', this.res)
+        // this.$router.push('/post/index/serch')
+      }).catch(error => {
+        console.log(error)
+      })
     }
   }
 }
@@ -204,6 +220,21 @@ export default {
   .page{
     display: flex;
     justify-content: center;
+  }
+
+  .select{
+    background-color: rgb(238, 245, 248);
+    width:75%;
+    margin:0 auto;
+  }
+
+  .tag{
+    display:flex;
+    list-style :none;
+    font-size:13px;
+    li{
+      margin-right: 10px;
+    }
   }
 }
 

@@ -20,7 +20,7 @@
         </div>
         <div class="form-group">
           <label for="tag">タグ</label>
-          <p></p>
+          <p class="tag_text">,で区切ると複数タグ付けできます。</p>
           <input type="text" id="tag" name="tag" v-model="post.tag">
         </div>
         <input type="submit" value="投稿" class="btn-block btn-white" v-if="post.logged_in > 0">
@@ -34,8 +34,8 @@
 <script>
 import axios from 'axios'
 
-const hostName = 'http://localhost:3000'
-// const hostName = 'https://game-share-api.herokuapp.com'
+// const hostName = 'http://localhost:3000'
+const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/posts'
 
 export default {
@@ -135,6 +135,11 @@ export default {
     resize:vertical;
     max-height:300px;
     min-height:80px;
+  }
+
+  .tag_text{
+    font-size: 12px;
+    color:rgba(0, 0, 0, 0.6);
   }
 }
 

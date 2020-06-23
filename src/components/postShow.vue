@@ -15,7 +15,11 @@
               <li><router-link :to="{name: 'postEdit', params: {id: res.post.id}}">編集</router-link></li>
               <li><deletebtn :post-id="res.post.id" @deletepost="deletePost"></deletebtn></li>
             </ul>
-          </div>
+        </div>
+            <ul class="tag">
+              <li>タグ  ：</li>
+              <li v-for="tag in res.tag_post" :key="tag.id">{{tag.name}}</li>
+            </ul>
           <form @submit.prevent="postComment" v-show="form">
             <label for="comment">コメント投稿</label>
             <div class="comment-form">
@@ -40,8 +44,8 @@ import axios from 'axios'
 import likebtn from './likebtn'
 import deletebtn from './deletebtn'
 
-const hostName = 'http://localhost:3000'
-// const hostName = 'https://game-share-api.herokuapp.com'
+// const hostName = 'http://localhost:3000'
+const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/posts'
 const path1 = '/api/favorites'
 const path2 = '/api/comments'
@@ -64,7 +68,8 @@ export default {
         post: {},
         picture: {},
         user: '',
-        favorites: []
+        favorites: [],
+        tag_post: []
       },
       response: {
         message: ''
@@ -262,6 +267,15 @@ export default {
 
   form{
     margin-bottom:15px;
+  }
+
+  .tag{
+    display:flex;
+    list-style :none;
+    font-size:13px;
+    li{
+      margin-right: 10px;
+    }
   }
 }
 

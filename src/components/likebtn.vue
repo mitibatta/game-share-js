@@ -6,8 +6,8 @@
 <script>
 import axios from 'axios'
 
-const hostName = 'http://localhost:3000'
-// const hostName = 'https://game-share-api.herokuapp.com'
+// const hostName = 'http://localhost:3000'
+const hostName = 'https://game-share-api.herokuapp.com'
 const path = '/api/favorites'
 export default {
   name: 'likebtn',
@@ -34,17 +34,21 @@ export default {
 
   methods: {
     likePost () {
-      axios.post(`${hostName}${path}`, {
-        user_id: this.logged_in,
-        post_id: this.postId
-      }).then(result => {
-        // this.$router.push('/post/index')
-        this.$emit('sendURL')
-        this.change += 1
-        console.log(this.postId)
-      }).catch(error => {
-        console.log(error)
-      })
+      if (this.logged_in >= 1) {
+        axios.post(`${hostName}${path}`, {
+          user_id: this.logged_in,
+          post_id: this.postId
+        }).then(result => {
+          // this.$router.push('/post/index')
+          this.$emit('sendURL')
+          this.change += 1
+          console.log(this.postId)
+        }).catch(error => {
+          console.log(error)
+        })
+      } else {
+        this.$router.push('/session/new')
+      }
     },
     likeDelete () {
       axios.delete(`${hostName}${path}/${this.postId}`, {
